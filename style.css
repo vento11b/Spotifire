@@ -1,0 +1,15 @@
+body {
+    padding: 0;
+    margin: 0;
+    background-color: #000;
+    overflow: hidden;
+}
+
+
+
+#main {
+    font-family: "Cascadia Code", sans-serif;
+    font-weight: 700;
+    font-style: normal;
+    color: #fff;
+}

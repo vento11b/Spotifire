@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Buscador Navidrome</title>
+  <style>
+    body { font-family: sans-serif; padding: 2rem; background: #f7f7f7; }
+    input { padding: 0.5rem; width: 300px; }
+    button { padding: 0.5rem 1rem; margin-left: 0.5rem; }
+    .cancion { margin-top: 1rem; cursor: pointer; }
+    audio { margin-top: 2rem; width: 100%; }
+  </style>
+</head>
+<body>
+  <h1>Buscar y reproducir desde Navidrome</h1>
+
+  <input type="text" id="busqueda" placeholder="Nombre de la canción...">
+  <button onclick="buscarCancion()">Buscar</button>
+
+  <div id="resultados"></div>
+
+  <audio id="player" controls autoplay></audio>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/blueimp-md5/2.19.0/js/md5.min.js"></script>
+  <script>
+    const servidor = "http://88.125.161.86:44533"; // cambia esto
+    const usuario = "vento"; // cambia esto
+    const password = "vento"; // cambia esto
+    const cliente = "webplayer";
+    const version = "1.16.1";
+
+    async function getTokenSalt() {
+      const salt = Math.random().toString(36).substring(2, 8);
+      const token = md5(password + salt);
+      return { token, salt };
+    }
+
+    async function buscarCancion() {
+      const query = document.getElementById("busqueda").value;
+      if (!query) return alert("Escribe algo para buscar");
+
+      const { token, salt } = await getTokenSalt();
+
+      const url = `${servidor}/rest/search2.view?query=${encodeURIComponent(query)}&u=${usuario}&t=${token}&s=${salt}&v=${version}&c=${cliente}&f=json`;
+
+      const res = await fetch(url);
+      const data = await res.json();
+
+      const canciones = data["subsonic-response"]?.searchResult2?.song || [];
+
+      const resultados = document.getElementById("resultados");
+      resultados.innerHTML = "";
+
+      if (canciones.length === 0) {
+        resultados.textContent = "No se encontraron canciones.";
+        return;
+      }
+
+      canciones.forEach(c => {
+        const div = document.createElement("div");
+        div.className = "cancion";
+        div.textContent = `${c.title} - ${c.artist} [ID: ${c.id}]`;
+        div.onclick = () => reproducir(c.id);
+        resultados.appendChild(div);
+      });
+    }
+
+    async function reproducir(id) {
+      const { token, salt } = await getTokenSalt();
+      const url = `${servidor}/rest/stream.view?id=${id}&u=${usuario}&t=${token}&s=${salt}&v=${version}&c=${cliente}`;
+      document.getElementById("player").src = url;
+    }
+  </script>
+</body>
+</html>
