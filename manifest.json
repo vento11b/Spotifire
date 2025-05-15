@@ -1,7 +1,7 @@
 {
   "name": "Spotifire",
   "short_name": "Spotifire",
-  "start_url": "https://127.0.0.1:5500/Spotifire",
+  "start_url": "https://vento11b.github.io/Spotifire/",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#000000",
