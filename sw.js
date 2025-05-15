@@ -3,12 +3,12 @@ self.addEventListener('install', event => {
   event.waitUntil(
     caches.open('hola-mundo-cache').then(cache => {
       return cache.addAll([
-        'Spotifire/',
-        'Spotifire/index.html',
-        'Spotifire/style.css',
-        'Spotifire/sw.js',
-        'Spotifire/manifest.json',
-        'Spotifire/logo.png'
+        './',
+        './index.html',
+        './style.css',
+        './sw.js',
+        './manifest.json',
+        './logo.png'
       ]);
     })
   );

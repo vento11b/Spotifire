@@ -4,18 +4,19 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+	<meta name="apple-mobile-web-app-capable" content="yes">
 	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 	<meta name="apple-mobile-web-app-title" content="Spotifire">
 
-	<link rel="apple-touch-icon" href="Spotifire/logo.png">
+	<link rel="apple-touch-icon" href="./logo.png">
 
-	<link rel="manifest" href="Spotifire/manifest.json">
+	<link rel="manifest" href="./manifest.json">
 
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-	<link href="https://fonts.googleapis.com/css2?family=Cascadia+Code:wght@700&display=swap" rel="stylesheet"><link rel="stylesheet" href="style.css">
+	<link href="https://fonts.googleapis.com/css2?family=Cascadia+Code:wght@700&display=swap" rel="stylesheet"><link rel="stylesheet" href="./style.css">
 	
 	<title>Spotifire 🔥</title>
 </head>
@@ -23,16 +24,36 @@
 	<div id="background">
 		<div id="main">
 			<div id="content">
-				<h1>Hola Mundo</h1>
+				<h1>Hola Vento</h1>
 			</div>
-			<div id="nav">
-				
-			</div> 
+		</div>
+		<div id="nav">
+
+			<script>
+				const box = document.getElementById("nav");
+
+				let startY = null;
+
+				box.addEventListener("touchstart", (e) => {
+					startY = e.touches[0].clientY;
+				});
+
+				box.addEventListener("touchmove", (e) => {
+					const deltaY = -e.touches[0].clientY + startY;
+					if (deltaY > -500 && deltaY < 500) {
+						box.style.transform = `translateY(${-deltaY*0.3}px)`;
+					}
+				});
+
+				box.addEventListener("touchend", () => {
+					box.style.transform = `translateY(0px)`;
+				});
+			</script>
 		</div>
 	</div>
 	<script>
     	if ('serviceWorker' in navigator) {
-    	  	navigator.serviceWorker.register('Spotifire/sw.js')
+    	  	navigator.serviceWorker.register('./sw.js')
     	    	.then(() => console.log('✅ Service Worker registrado'))
     	    	.catch(err => console.error('❌ Error registrando SW:', err));
     	}
