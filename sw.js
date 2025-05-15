@@ -1,10 +1,14 @@
+console.log("Hola");
 self.addEventListener('install', event => {
   event.waitUntil(
     caches.open('hola-mundo-cache').then(cache => {
       return cache.addAll([
         '/',
         '/index.html',
-        '/style.css'
+        '/style.css',
+        '/sw.js',
+        '/manifest.json',
+        '/logo.png'
       ]);
     })
   );
